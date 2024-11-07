@@ -10,7 +10,7 @@ if (isset($_POST["submit"])) {
     $data = simplexml_load_file($url, 'SimpleXMLElement');
 
     foreach ($data->cidade as $cidade) {
-        if ($_SESSION['nome_cidade'] == $cidade->nome && $_SESSION['uf'] == $cidade->uf) {
+        if (slugify($_SESSION['nome_cidade']) == slugify($cidade->nome) && $_SESSION['uf'] == $cidade->uf) {
             $id_municipio = $cidade->id;
             $request_url = 'http://servicos.cptec.inpe.br/XML/cidade/7dias/' . $id_municipio . '/previsao.xml';
             $request_data = simplexml_load_file($request_url, 'SimpleXMLElement');
@@ -27,7 +27,7 @@ if (isset($_POST["submit"])) {
     if (!$verify) {
         echo "<script type='text/javascript'>  
                                 alert('Erro ao procurar por cidade ou estado. Verifique se o nome da cidade está como pronome pessoal.');
-                                window.location.href = '../view/index.php';
+                                window.location.href = '../index.php';
                                 </script>";
     }
 
@@ -36,7 +36,7 @@ if (isset($_POST["submit"])) {
 } else {
     echo "<script type='text/javascript'>  
                             alert('Erro.');
-                           window.location.href = '../view/index.php';
+                           window.location.href = '../index.php';
                             </script>";
 }
 
